@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Almus s.r.o. – Přeprava osob a dokumentů</title>
+  <link type="image/png" sizes="16x16" rel="icon" href="https://img.icons8.com/liquid-glass/48/a.png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+<!--SETUP-->
+<div id="setupBanner" style="
+  position:fixed; bottom:0; left:0; right:0; z-index:9999;
+  background:#0b1a2e; border-top:3px solid #c9a84c;
+  padding:1rem 1.5rem; font-family:monospace; font-size:0.78rem;
+  color:#e8c97e; display:flex; flex-wrap:wrap; gap:1rem;
+  align-items:center; justify-content:space-between;">
+  <div>
+    <strong style="color:#fff">⚙ BACKEND SETUP NEEDED</strong> &nbsp;|&nbsp;
+    <span style="color:#aaa">Formspree:</span>
+    <span id="fs-status" style="color:#ff8888">NOT SET</span>
+    &nbsp;&nbsp;
+    <span style="color:#aaa">Supabase:</span>
+    <span id="sb-status" style="color:#ff8888">NOT SET</span>
+  </div>
+  <div style="display:flex;gap:0.6rem">
+    <a href="https://formspree.io" target="_blank"
+       style="color:#c9a84c;text-decoration:none;border:1px solid #c9a84c;padding:0.25rem 0.7rem;border-radius:2px">
+       Formspree →</a>
+    <a href="https://supabase.com" target="_blank"
+       style="color:#c9a84c;text-decoration:none;border:1px solid #c9a84c;padding:0.25rem 0.7rem;border-radius:2px">
+       Supabase →</a>
+    <button onclick="document.getElementById('setupBanner').remove()"
+       style="background:#333;border:none;color:#aaa;padding:0.25rem 0.7rem;border-radius:2px;cursor:pointer">
+       Hide</button>
+  </div>
+</div>
+<script>
+  // Update banner status after CONFIG is defined
+  window.addEventListener('load', () => {
+    const b = document.getElementById('setupBanner');
+    if (!b) return;
+    const fs = document.getElementById('fs-status');
+    const sb = document.getElementById('sb-status');
+    if (CONFIG.FORMSPREE_ID !== 'YOUR_FORMSPREE_ID') {
+      fs.textContent = '✓ OK'; fs.style.color = '#4caf85';
+    }
+    if (CONFIG.SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+      sb.textContent = '✓ OK'; sb.style.color = '#4caf85';
+    }
+    if (CONFIG.FORMSPREE_ID !== 'YOUR_FORMSPREE_ID' && CONFIG.SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+      setTimeout(() => b.remove(), 3000);
+    }
+  });
+</script>
+
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">Almus<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Služby</a></li>
+    <li><a href="#routes">Trasy</a></li>
+    <li><a href="#gallery">Galerie</a></li>
+    <li><a href="#about">O nás</a></li>
+    <li><a href="#testimonials">Reference</a></li>
+    <li><a href="#contact" class="nav-cta">Kontakt</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" aria-label="Otevřít menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" class="mobile-link">Služby</a>
+  <a href="#routes" class="mobile-link">Trasy</a>
+  <a href="#gallery" class="mobile-link">Galerie</a>
+  <a href="#about" class="mobile-link">O nás</a>
+  <a href="#testimonials" class="mobile-link">Reference</a>
+  <a href="#contact" class="mobile-link">Kontakt</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-content">
+      <span class="hero-tag">Jihlava · Česká republika</span>
+      <h1 class="hero-title">Přeprava<span>s důvěrou.</span></h1>
+      <p class="hero-sub">Spolehlivá přeprava osob a dokumentů z Jihlavy do regionu i zahraničí. Váš pohodlný a bezpečný partner na cestě.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-gold">Objednat přepravu</a>
+        <a href="#services" class="btn-outline-w">Naše služby</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>20+</strong><small>Let zkušeností</small></div>
+    <div class="hero-stat"><strong>5 000+</strong><small>Spokojených klientů</small></div>
+    <div class="hero-stat"><strong>24/7</strong><small>Dispečink</small></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="row mb-5 scroll-reveal">
+      <div class="col-lg-6">
+        <span class="section-label">Co nabízíme</span>
+        <h2 class="section-title">Naše služby</h2>
+        <div class="divider-gold"></div>
+        <p class="text-muted" style="font-size:0.95rem; line-height:1.8">Nabízíme komplexní přepravní řešení pro soukromé osoby i firmy. Od lokálních tras v Jihlavě až po mezinárodní přepravu dokumentů a osob.</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3 scroll-reveal">
+        <div class="service-card" onclick="openModal('modal-persons')">
+          <div class="service-icon"><i class="fas fa-users"></i></div>
+          <h4>Přeprava osob</h4>
+          <p>Pohodlná a bezpečná přeprava osob po Jihlavě, Kraji Vysočina i vzdálenějších destinacích. Profesionální řidiči, moderní vozidla.</p>
+          <a href="#" class="learn-more" onclick="event.preventDefault(); openModal('modal-persons')">Více informací <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 scroll-reveal">
+        <div class="service-card" onclick="openModal('modal-docs')">
+          <div class="service-icon"><i class="fas fa-file-alt"></i></div>
+          <h4>Přeprava dokumentů</h4>
+          <p>Bezpečné doručení důležitých dokumentů a zásilek. Diskrétní a spolehlivé – ideální pro firmy, notáře i státní instituce.</p>
+          <a href="#" class="learn-more" onclick="event.preventDefault(); openModal('modal-docs')">Více informací <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 scroll-reveal">
+        <div class="service-card" onclick="openModal('modal-intl')">
+          <div class="service-icon"><i class="fas fa-globe-europe"></i></div>
+          <h4>Mezinárodní trasy</h4>
+          <p>Přeprava do Německa, Rakouska, Slovenska a dalších zemí. Vyřízení všech formalit, pohodlná cesta bez starostí.</p>
+          <a href="#" class="learn-more" onclick="event.preventDefault(); openModal('modal-intl')">Více informací <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 scroll-reveal">
+        <div class="service-card" onclick="openModal('modal-corp')">
+          <div class="service-icon"><i class="fas fa-building"></i></div>
+          <h4>Firemní přeprava</h4>
+          <p>Smluvní přeprava pro firmy a instituce. Pravidelné trasy, fakturace, reporting. Spolehlivý partner pro vaše podnikání.</p>
+          <a href="#" class="learn-more" onclick="event.preventDefault(); openModal('modal-corp')">Více informací <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROUTES -->
+<section id="routes">
+  <div class="container">
+    <div class="row mb-5 scroll-reveal">
+      <div class="col-lg-6">
+        <span class="section-label" style="color:var(--gold)">Odkud kam jezdíme</span>
+        <h2 class="section-title light">Naše trasy</h2>
+        <div class="divider-gold"></div>
+        <p style="color:rgba(255,255,255,0.6); font-size:0.95rem; line-height:1.8">Primárně operujeme v oblasti Jihlava a Kraj Vysočina, ale na přání klienta zajistíme přepravu kamkoliv v ČR i do zahraničí.</p>
+      </div>
+    </div>
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-5 scroll-reveal">
+        <h5 style="color:var(--gold); font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.2rem; font-weight:700">Pravidelné destinace</h5>
+        <div class="route-pill"><div class="route-dot"></div><span>Jihlava → Brno</span><span class="tag">Denně</span></div>
+        <div class="route-pill"><div class="route-dot"></div><span>Jihlava → Praha</span><span class="tag">Denně</span></div>
+        <div class="route-pill"><div class="route-dot"></div><span>Jihlava → Pelhřimov</span><span class="tag">Pravidelně</span></div>
+        <div class="route-pill"><div class="route-dot"></div><span>Jihlava → Třebíč</span><span class="tag">Pravidelně</span></div>
+        <div class="route-pill"><div class="route-dot"></div><span>Jihlava → Havlíčkův Brod</span><span class="tag">Pravidelně</span></div>
+        <div class="route-pill"><div class="route-dot"></div><span>Jihlava → Vídeň (AT)</span><span class="tag">Na objednávku</span></div>
+        <div class="route-pill"><div class="route-dot"></div><span>Jihlava → Mnichov (DE)</span><span class="tag">Na objednávku</span></div>
+        <div class="route-pill"><div class="route-dot"></div><span>Jihlava → Bratislava (SK)</span><span class="tag">Na objednávku</span></div>
+        <div style="margin-top:1.5rem">
+          <a href="#contact" class="btn-gold" style="font-size:0.8rem; padding:0.7rem 1.5rem">Zjistit cenu trasy</a>
+        </div>
+      </div>
+      <div class="col-lg-7 scroll-reveal">
+        <div class="map-frame">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d166167.1068201435!2d15.587915050585938!3d49.40207762602331!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470d1a433857ab8f%3A0x400af0f66152a00!2sJihlava!5e0!3m2!1scs!2scz!4v1779086037728!5m2!1scs!2scz"
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+          <div class="map-overlay"><span>📍 Jihlava, CZ</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="row mb-5 scroll-reveal">
+      <div class="col-lg-6">
+        <span class="section-label">Fotogalerie</span>
+        <h2 class="section-title">Naše vozový park<br>& provoz</h2>
+        <div class="divider-gold"></div>
+      </div>
+    </div>
+    <div class="gallery-grid scroll-reveal">
+      <div class="gallery-item g1" onclick="openLightbox('https://images.unsplash.com/photo-1772440223098-cc23f6f01209?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+        <img src="https://images.unsplash.com/photo-1772440223098-cc23f6f01209?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Vozidla" />
+        <div class="g-overlay"><span>Vozový park</span></div>
+      </div>
+      <div class="gallery-item g2" onclick="openLightbox('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=900&q=80')">
+        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80" alt="Autobus" />
+        <div class="g-overlay"><span>Přeprava osob</span></div>
+      </div>
+      <div class="gallery-item g3" onclick="openLightbox('https://images.unsplash.com/photo-1708786062644-6275b030ab8c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+        <img src="https://images.unsplash.com/photo-1708786062644-6275b030ab8c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cesta" />
+        <div class="g-overlay"><span>Na cestě</span></div>
+      </div>
+      <div class="gallery-item g4" onclick="openLightbox('https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=80')">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Jihlava" />
+        <div class="g-overlay"><span>Jihlava</span></div>
+      </div>
+      <div class="gallery-item g5" onclick="openLightbox('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+        <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dokumenty" />
+        <div class="g-overlay"><span>Dokumenty</span></div>
+      </div>
+      <div class="gallery-item g6" onclick="openLightbox('https://images.unsplash.com/photo-1766066014237-00645c74e9c6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+        <img src="https://images.unsplash.com/photo-1766066014237-00645c74e9c6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dispečink" />
+        <div class="g-overlay"><span>Dispečink</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5 scroll-reveal">
+        <div class="about-img-wrap">
+          <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tým Almus s.r.o." />
+          <div class="about-badge">
+            <strong>20+</strong>
+            <small>let v provozu</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7 scroll-reveal">
+        <div class="about-text">
+          <span class="section-label">O společnosti</span>
+          <h2 class="section-title">Almus s.r.o.</h2>
+          <div class="divider-gold"></div>
+          <p>Almus s.r.o. je česká přepravní společnost se sídlem v Jihlavě, která poskytuje spolehlivou přepravu osob a dokumentů od roku 1997. Naše vozidla denně obsluhují desítky klientů v regionu Vysočina i mimo něj.</p>
+          <p>Klademe důraz na dochvilnost, diskrétnost a profesionalitu. Každý klient je pro nás prioritou – ať již jde o jednorázovou cestu do Brna, nebo pravidelnou smluvní přepravu pro firmu.</p>
+          <div class="mt-4">
+            <div class="value-item">
+              <div class="value-icon"><i class="fas fa-clock"></i></div>
+              <div>
+                <h5>Spolehlivost a dochvilnost</h5>
+                <p>Naši řidiči dorazí vždy v dohodnutý čas. Váš čas je pro nás cenný.</p>
+              </div>
+            </div>
+            <div class="value-item">
+              <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+              <div>
+                <h5>Bezpečnost a diskrétnost</h5>
+                <p>Přeprava dokumentů i osob probíhá s maximální diskrétností a bezpečností.</p>
+              </div>
+            </div>
+            <div class="value-item">
+              <div class="value-icon"><i class="fas fa-headset"></i></div>
+              <div>
+                <h5>Dispečink 24/7</h5>
+                <p>Jsme tu pro vás kdykoliv. Objednávky přijímáme nonstop, telefonicky i online.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="row mb-5 scroll-reveal">
+      <div class="col-lg-6">
+        <span class="section-label">Co říkají klienti</span>
+        <h2 class="section-title light">Reference</h2>
+        <div class="divider-gold"></div>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4 scroll-reveal">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>Přepravu dokumentů z Jihlavy do Prahy zajistila Almus s.r.o. přesně dle domluvy. Rychlé, diskrétní a bez komplikací. Určitě využijeme znovu.</p>
+          <div class="testimonial-author">
+            <div class="t-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <div class="t-name">Ing. Pavel Novák</div>
+              <div class="t-role">Advokátní kancelář, Jihlava</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 scroll-reveal">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>Pravidelně využíváme přepravu zaměstnanců na letiště ve Vídni. Vždy spolehliví, komfortní vozidla a příjemní řidiči. Doporučuji všem.</p>
+          <div class="testimonial-author">
+            <div class="t-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <div class="t-name">Martina Horáčková</div>
+              <div class="t-role">HR Manager, průmyslová firma</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 scroll-reveal">
+        <div class="testimonial-card">
+          <div class="stars">★★★★☆</div>
+          <p>Objednali jsme přepravu skupiny na konferenci do Brna. Vše proběhlo hladce, řidič byl velmi ochotný. Cena odpovídá kvalitě.</p>
+          <div class="testimonial-author">
+            <div class="t-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <div class="t-name">Tomáš Kratochvíl</div>
+              <div class="t-role">Ředitel, vzdělávací centrum</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="row mb-5 scroll-reveal">
+      <div class="col-12 text-center">
+        <span class="section-label" style="display:block;text-align:center">Rezervace a dotazy</span>
+        <h2 class="section-title" style="text-align:center">Kontaktujte nás</h2>
+        <div class="divider-gold mx-auto"></div>
+      </div>
+    </div>
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-7 scroll-reveal">
+        <div class="contact-box">
+          <h5 style="font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:0.05em; color:var(--navy); margin-bottom:1.5rem">Poptávkový formulář</h5>
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label>Jméno a příjmení *</label>
+                <input type="text" class="form-control" id="fname" placeholder="Jan Novák" required />
+              </div>
+              <div class="col-md-6">
+                <label>Telefon *</label>
+                <input type="tel" class="form-control" id="fphone" placeholder="+420555555555" required minlength="8" />
+              </div>
+              <div class="col-12">
+		<label>E-mail *</label>
+		<input type="email" class="form-control" id="femail" placeholder="vas@email.cz" required />
+              </div>
+              <div class="col-md-6">
+                <label>Typ přepravy *</label>
+                <select class="form-select" id="ftype" required>
+                  <option value="">Vyberte…</option>
+                  <option>Přeprava osob – místní</option>
+                  <option>Přeprava osob – mezinárodní</option>
+                  <option>Přeprava dokumentů</option>
+                  <option>Firemní přeprava</option>
+                  <option>Jiné</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label>Datum cesty</label>
+                <input type="date" class="form-control" id="fdate" />
+              </div>
+              <div class="col-md-6">
+                <label>Místo odjezdu *</label>
+                <input type="text" class="form-control" id="ffrom" placeholder="Jihlava, nám. Svobody" required />
+              </div>
+              <div class="col-md-6">
+                <label>Cíl cesty *</label>
+                <input type="text" class="form-control" id="fto" placeholder="Brno, hlavní nádraží" required />
+              </div>
+              <div class="col-12">
+                <label>Poznámka</label>
+                <textarea class="form-control" id="fnote" rows="3" placeholder="Počet cestujících, zvláštní požadavky…"></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn-gold w-100" style="display:block; text-align:center">
+                  <i class="fas fa-paper-plane me-2"></i>Odeslat poptávku
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-5 scroll-reveal">
+        <div style="padding-top:0.5rem">
+          <div class="contact-info-item">
+            <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="ci-label">Sídlo společnosti</div>
+              <div class="ci-value">Almus s.r.o.<br>Žižkova 1696/15, 586 01 Jihlava</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon"><i class="fas fa-phone-alt"></i></div>
+            <div>
+              <div class="ci-label">Telefon / Dispečink</div>
+              <div class="ci-value"><a href="tel:+420555555555">+420555555555</a></div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="ci-label">E-mail</div>
+              <div class="ci-value"><a href="mailto:almus.com.s.r.o@gmail.com">almus.com.s.r.o@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="ci-label">Provozní doba</div>
+              <div class="ci-value">Dispečink: 24 / 7<br><span style="font-size:0.82rem; color:#6a7a8a">Kancelář: Po–Pá 8:00–17:00</span></div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon"><i class="fas fa-id-card"></i></div>
+            <div>
+              <div class="ci-label">Fakturační údaje</div>
+              <div class="ci-value" style="font-size:0.85rem">IČO: 25329481<br>DIČ: CZ25329481</div>
+            </div>
+          </div>
+          <div style="background:var(--navy); border-radius:6px; padding:1.5rem; margin-top:1rem">
+            <p style="color:rgba(255,255,255,0.7); font-size:0.85rem; margin:0; line-height:1.7">
+              <i class="fas fa-info-circle" style="color:var(--gold); margin-right:0.5rem"></i>
+              Pro okamžité objednání nás kontaktujte telefonicky. Poptávky z formuláře vyřizujeme do 2 hodin v pracovní době.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4 mb-4">
+      <div class="col-lg-4">
+        <div class="footer-brand">Almus<span>.</span> s.r.o.</div>
+        <div class="footer-tagline">Přeprava osob a dokumentů · Jihlava</div>
+        <p style="margin-top:1rem; font-size:0.83rem; line-height:1.75; color:rgba(255,255,255,0.45); max-width:280px">
+          Váš spolehlivý přepravní partner od roku 1997. Přepravujeme osoby a dokumenty po celé České republice i do zahraničí.
+        </p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Navigace</h6>
+        <ul>
+          <li><a href="#services">Služby</a></li>
+          <li><a href="#routes">Trasy</a></li>
+          <li><a href="#gallery">Galerie</a></li>
+          <li><a href="#about">O nás</a></li>
+          <li><a href="#contact">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-3">
+        <h6>Naše služby</h6>
+        <ul>
+          <li><a href="#">Přeprava osob</a></li>
+          <li><a href="#">Přeprava dokumentů</a></li>
+          <li><a href="#">Mezinárodní trasy</a></li>
+          <li><a href="#">Firemní přeprava</a></li>
+          <li><a href="#">Expresní přeprava</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <h6>Kontakt</h6>
+        <ul>
+          <li><a href="tel:+420555555555"><i class="fas fa-phone me-2"></i>+420 555 555 555</a></li>
+          <li><a href="mailto:almus.com.s.r.o@gmail.com"><i class="fas fa-envelope me-2"></i>almus.com.s.r.o@gmail.com</a></li>
+          <li><a href="#"><i class="fas fa-map-marker-alt me-2"></i>Žižkova 1696/15, Jihlava</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span>© 2026 Almus s.r.o. · IČO: 25329481 · Všechna práva vyhrazena</span>
+      <div class="footer-social">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<!-- Persons Modal -->
+<div class="custom-modal-overlay" id="modal-persons">
+  <div class="custom-modal">
+    <div class="modal-header-custom">
+      <h5><span>Přeprava</span> osob</h5>
+      <button class="modal-close" onclick="closeModal('modal-persons')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body-custom">
+      <p>Nabízíme pohodlnou přepravu jednotlivců i skupin osob. Naše moderní vozidla jsou klimatizovaná, pravidelně servisovaná a pojištěná. Řidiči jsou proškolení a profesionální.</p>
+      <ul class="modal-feature-list">
+        <li><i class="fas fa-check"></i> Přeprava 1–8 osob (sedan, minivan)</li>
+        <li><i class="fas fa-check"></i> Místní trasy v Jihlavě a okolí</li>
+        <li><i class="fas fa-check"></i> Meziměstská přeprava (Brno, Praha, Olomouc…)</li>
+        <li><i class="fas fa-check"></i> Přeprava na letiště (Vídeň, Praha, Brno)</li>
+        <li><i class="fas fa-check"></i> Platba hotově nebo kartou</li>
+        <li><i class="fas fa-check"></i> Objednávka telefonicky nebo online</li>
+      </ul>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn-outline-w" style="border-color:#ccc;color:#333" onclick="closeModal('modal-persons')">Zavřít</button>
+      <a href="#contact" class="btn-gold" onclick="closeModal('modal-persons')">Objednat</a>
+    </div>
+  </div>
+</div>
+
+<!-- Docs Modal -->
+<div class="custom-modal-overlay" id="modal-docs">
+  <div class="custom-modal">
+    <div class="modal-header-custom">
+      <h5><span>Přeprava</span> dokumentů</h5>
+      <button class="modal-close" onclick="closeModal('modal-docs')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body-custom">
+      <p>Zajišťujeme bezpečné a diskrétní doručení obchodních i právních dokumentů, smluv, notářských listin a dalších zásilek vyžadujících osobní kurýr.</p>
+      <ul class="modal-feature-list">
+        <li><i class="fas fa-check"></i> Expresní doručení (same-day)</li>
+        <li><i class="fas fa-check"></i> Plná diskrétnost a mlčenlivost</li>
+        <li><i class="fas fa-check"></i> Potvrzení převzetí dokumentů</li>
+        <li><i class="fas fa-check"></i> Přeprava po celé ČR i do zahraničí</li>
+        <li><i class="fas fa-check"></i> Ideální pro advokáty, firmy, notáře</li>
+        <li><i class="fas fa-check"></i> Faktura na firmu</li>
+      </ul>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn-outline-w" style="border-color:#ccc;color:#333" onclick="closeModal('modal-docs')">Zavřít</button>
+      <a href="#contact" class="btn-gold" onclick="closeModal('modal-docs')">Objednat</a>
+    </div>
+  </div>
+</div>
+
+<!-- International Modal -->
+<div class="custom-modal-overlay" id="modal-intl">
+  <div class="custom-modal">
+    <div class="modal-header-custom">
+      <h5><span>Mezinárodní</span> trasy</h5>
+      <button class="modal-close" onclick="closeModal('modal-intl')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body-custom">
+      <p>Přepravujeme do sousedních i vzdálenějších zemí. Zajistíme komfortní a bezpečný transport na jakoukoliv adresu v Evropě.</p>
+      <ul class="modal-feature-list">
+        <li><i class="fas fa-check"></i> Německo (Mnichov, Norimberk, Berlín)</li>
+        <li><i class="fas fa-check"></i> Rakousko (Vídeň, Linec, Salzburg)</li>
+        <li><i class="fas fa-check"></i> Slovensko (Bratislava, Košice)</li>
+        <li><i class="fas fa-check"></i> Polsko, Maďarsko a další země</li>
+        <li><i class="fas fa-check"></i> Přeprava na mezinárodní letiště</li>
+        <li><i class="fas fa-check"></i> Cena dohodou dle trasy</li>
+      </ul>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn-outline-w" style="border-color:#ccc;color:#333" onclick="closeModal('modal-intl')">Zavřít</button>
+      <a href="#contact" class="btn-gold" onclick="closeModal('modal-intl')">Objednat</a>
+    </div>
+  </div>
+</div>
+
+<!-- Corporate Modal -->
+<div class="custom-modal-overlay" id="modal-corp">
+  <div class="custom-modal">
+    <div class="modal-header-custom">
+      <h5><span>Firemní</span> přeprava</h5>
+      <button class="modal-close" onclick="closeModal('modal-corp')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body-custom">
+      <p>Nabízíme smluvní přepravu pro firmy a instituce. Pravidelné trasy, měsíční fakturace a individuální podmínky pro každého klienta.</p>
+      <ul class="modal-feature-list">
+        <li><i class="fas fa-check"></i> Smluvní spolupráce s výhodnou cenou</li>
+        <li><i class="fas fa-check"></i> Pravidelná přeprava zaměstnanců</li>
+        <li><i class="fas fa-check"></i> Měsíční fakturace</li>
+        <li><i class="fas fa-check"></i> Přeprava na veletrhy a konference</li>
+        <li><i class="fas fa-check"></i> Kurýrní služby pro firmy</li>
+        <li><i class="fas fa-check"></i> Reporting a přehled jízd</li>
+      </ul>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn-outline-w" style="border-color:#ccc;color:#333" onclick="closeModal('modal-corp')">Zavřít</button>
+      <a href="#contact" class="btn-gold" onclick="closeModal('modal-corp')">Kontaktovat</a>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+  <img src="" id="lightboxImg" alt="Galerie" onclick="event.stopPropagation()" />
+</div>
+
+<!-- TOAST -->
+<div class="toast-container-custom" id="toastContainer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
